@@ -5,6 +5,9 @@
  */
 package saludlaboralcpo;
 
+import Presentacion.Acceso;
+import Presentacion.Sistema;
+
 /**
  *
  * @author baci
@@ -15,7 +18,15 @@ public class SaludLaboralCPO {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+
+        Sistema sistema = new Sistema();
+
+        Acceso acceso = new Acceso();
+
+        sistema.setVisible(true);
+
+        acceso.setVisible(true);
+
     }
 
 }
