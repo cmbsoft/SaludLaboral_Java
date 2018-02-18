@@ -17,6 +17,7 @@ import Datos.TraeDatosBD;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Logica.FuncionesPropias;
 
 /**
  *
@@ -87,6 +88,8 @@ public class EmpleadosClass extends EmpleadosDatos {
         empleados = empleados(SQL);
         TraeDatosBD traedatos = new TraeDatosBD();
 
+        FuncionesPropias fechaformato = new FuncionesPropias();
+
         Sistema.lblApellido.setText(empleados.get(0).getApellido());
         Sistema.lblNombre.setText(empleados.get(0).getNombre());
         Sistema.lblDNI.setText(empleados.get(0).getNum_documento());
@@ -95,7 +98,7 @@ public class EmpleadosClass extends EmpleadosDatos {
         Sistema.lblDireccion.setText(empleados.get(0).getDomicilio());
         Sistema.lblTelefono.setText(empleados.get(0).getTelefono());
         Sistema.lblMovil.setText(empleados.get(0).getTelmovil());
-        Sistema.lblFecNac.setText(empleados.get(0).getFecha_nacimiento());
+        Sistema.lblFecNac.setText(fechaformato.dFechaddmmyyyy(empleados.get(0).getFecha_nacimiento()));
 
         Sistema.lblCarpMed.setText(empleados.get(0).getCarp_medica());
         Sistema.lblAptitud.setText(empleados.get(0).getAptitud());

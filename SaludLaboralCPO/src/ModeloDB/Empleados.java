@@ -5,6 +5,8 @@
  */
 package ModeloBD;
 
+import java.util.Date;
+
 /**
  *
  * @author baci
@@ -19,7 +21,7 @@ public class Empleados {
     private String apellido;
     private String nombre;
 
-    private String fecha_nacimiento;
+    private Date fecha_nacimiento;
 
     private String domicilio;
     private String telefono;
@@ -59,7 +61,7 @@ public class Empleados {
     public Empleados() {
     }
 
-    public Empleados(String legajo, String codigo, String sexo, String tipo_documento, String num_documento, String apellido, String nombre, String fecha_nacimiento, String domicilio, String telefono, String estado_civil, String muros, String antiguedad_reconocida, String toma_posecion, String matricula_medico, int codigo_ope, String fecha_baja, int idmotivobaja, String legajo_baja, String fecha_operacion, String hora_operacion, int cod_cargo, int cod_categoria, String telmovil, int baja, String obs, String carp_medica, String aptitud, String codigopostal, String lugarnacimiento, String decreto_nom, String cuil, String Matricula_Turnos, String TypeUser, int nohuella, String mail) {
+    public Empleados(String legajo, String codigo, String sexo, String tipo_documento, String num_documento, String apellido, String nombre, Date fecha_nacimiento, String domicilio, String telefono, String estado_civil, String muros, String antiguedad_reconocida, String toma_posecion, String matricula_medico, int codigo_ope, String fecha_baja, int idmotivobaja, String legajo_baja, String fecha_operacion, String hora_operacion, int cod_cargo, int cod_categoria, String telmovil, int baja, String obs, String carp_medica, String aptitud, String codigopostal, String lugarnacimiento, String decreto_nom, String cuil, String Matricula_Turnos, String TypeUser, int nohuella, String mail) {
         this.legajo = legajo;
         this.codigo = codigo;
         this.sexo = sexo;
@@ -154,11 +156,11 @@ public class Empleados {
         this.nombre = nombre;
     }
 
-    public String getFecha_nacimiento() {
+    public Date getFecha_nacimiento() {
         return fecha_nacimiento;
     }
 
-    public void setFecha_nacimiento(String fecha_nacimiento) {
+    public void setFecha_nacimiento(Date fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
 
