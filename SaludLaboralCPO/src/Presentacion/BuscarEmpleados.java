@@ -11,6 +11,7 @@ import ModeloBD.Empleados;
 import java.util.List;
 import javax.swing.JFrame;
 import Presentacion.Sistema;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,6 +84,9 @@ public class BuscarEmpleados extends javax.swing.JFrame {
             }
         });
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarKeyReleased(evt);
             }
@@ -149,6 +153,11 @@ public class BuscarEmpleados extends javax.swing.JFrame {
                 "ID", "Legajo", "Apellido y Nombre"
             }
         ));
+        tablaEmpleados.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablaEmpleadosKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaEmpleados);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -189,6 +198,7 @@ public class BuscarEmpleados extends javax.swing.JFrame {
                 .addGap(11, 11, 11))
         );
 
+        btSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Archivos/accept.png"))); // NOI18N
         btSeleccionar.setText("Seleccionar");
         btSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,6 +206,7 @@ public class BuscarEmpleados extends javax.swing.JFrame {
             }
         });
 
+        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Archivos/cancel.png"))); // NOI18N
         btCancelar.setText("Cancelar");
         btCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,11 +226,14 @@ public class BuscarEmpleados extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btSeleccionar)
-                        .addGap(18, 18, 18)
+                        .addComponent(btSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
                         .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(9, 9, 9))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btCancelar, btSeleccionar});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -228,7 +242,8 @@ public class BuscarEmpleados extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSeleccionar)
-                    .addComponent(btCancelar)))
+                    .addComponent(btCancelar))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -287,6 +302,21 @@ public class BuscarEmpleados extends javax.swing.JFrame {
         this.setVisible(false);
 
     }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
+        int key = evt.getKeyCode();
+        if (key == KeyEvent.VK_ENTER)
+         tablaEmpleados.requestFocus();
+        
+    }//GEN-LAST:event_txtBuscarKeyPressed
+
+    private void tablaEmpleadosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaEmpleadosKeyPressed
+        int key = evt.getKeyCode();
+        if (key == KeyEvent.VK_ENTER)
+         btSeleccionar.requestFocus();
+
+        
+    }//GEN-LAST:event_tablaEmpleadosKeyPressed
 
     /**
      * @param args the command line arguments

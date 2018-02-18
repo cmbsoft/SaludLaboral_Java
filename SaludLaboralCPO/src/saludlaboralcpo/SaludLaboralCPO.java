@@ -7,6 +7,10 @@ package saludlaboralcpo;
 
 import Presentacion.Acceso;
 import Presentacion.Sistema;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
+import javax.swing.ImageIcon;
 
 /**
  *
