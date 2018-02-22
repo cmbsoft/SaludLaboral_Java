@@ -20,6 +20,7 @@ public class Sistema extends javax.swing.JFrame {
      */
     public Sistema() {
         initComponents();
+         this.setResizable(false);
         lblNotificacion.setText("Sistema");
 
         this.setLocationRelativeTo(null);
@@ -200,8 +201,8 @@ public class Sistema extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,7 +440,7 @@ public class Sistema extends javax.swing.JFrame {
                                 .addComponent(lblServicio, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(lblRevista, javax.swing.GroupLayout.Alignment.TRAILING))
                             .addComponent(lblDecNomb, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {LblLocalidad, lblCP, lblDNI, lblDireccion, lblFecNac, lblMovil, lblTelefono});

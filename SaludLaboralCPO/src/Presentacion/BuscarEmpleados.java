@@ -69,7 +69,9 @@ public class BuscarEmpleados extends javax.swing.JFrame {
         btCancelar = new javax.swing.JButton();
 
         setTitle("Empleados");
+        setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setUndecorated(true);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

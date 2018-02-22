@@ -39,6 +39,7 @@ public class Acceso extends javax.swing.JFrame {
 
         setTitle("Acceso al Sistema");
         setAlwaysOnTop(true);
+        setUndecorated(true);
 
         jLabel1.setText("Usuario:");
 
@@ -50,6 +51,11 @@ public class Acceso extends javax.swing.JFrame {
         btAceptar.setText("Aceptar");
 
         btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,6 +104,12 @@ public class Acceso extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+               
+        this.setVisible(false);
+        
+    }//GEN-LAST:event_btCancelarActionPerformed
 
     /**
      * @param args the command line arguments

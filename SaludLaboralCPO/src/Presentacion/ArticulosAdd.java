@@ -60,7 +60,9 @@ public class ArticulosAdd extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setTitle("Artículos");
+        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 254, 253));
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(30, 129, 53), 1, true));
