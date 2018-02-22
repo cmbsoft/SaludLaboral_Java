@@ -5,8 +5,14 @@
  */
 package Logica;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -38,4 +44,40 @@ public class FuncionesPropias {
         return fechaformato;
 
     }
+
+    public long DifEntreFechas(Date Desde, Date Hasta) {
+        long diferencia = 0;
+        final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día
+
+        if (Desde == null || Hasta == null) {
+            diferencia = 0;
+        } else {
+            if (Desde.getTime() > Hasta.getTime()) {
+                diferencia = 0;
+                JOptionPane.showMessageDialog(null, "La fecha Hasta es mayor que la fecha Desde");
+            } else {
+                diferencia = ((Hasta.getTime() - Desde.getTime()) / MILLSECS_PER_DAY) + 1;
+            }
+
+        }
+
+        return diferencia;
+    }
+
+    public static String getMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            BigInteger number = new BigInteger(1, messageDigest);
+            String hashtext = number.toString(16);
+
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

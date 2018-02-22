@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Presentacion.Sistema;
 
 /**
  *
@@ -32,10 +33,11 @@ public class BuscarEmpleados extends javax.swing.JFrame {
      */
     public BuscarEmpleados() {
         initComponents();
+        Sistema.lblNotificacion.setText("Buscador de Empleados");
         this.setLocationRelativeTo(null);
-
         //this.setUndecorated(true);
-        opActivo.setSelected(true);
+        opActivo
+                .setSelected(true);
 
         //  EmpleadosClass empleados = new EmpleadosClass();
         List<Empleados> numEmpleados;
@@ -305,17 +307,18 @@ public class BuscarEmpleados extends javax.swing.JFrame {
 
     private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
         int key = evt.getKeyCode();
-        if (key == KeyEvent.VK_ENTER)
-         tablaEmpleados.requestFocus();
-        
+        if (key == KeyEvent.VK_ENTER) {
+            tablaEmpleados.requestFocus();
+        }
+
     }//GEN-LAST:event_txtBuscarKeyPressed
 
     private void tablaEmpleadosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaEmpleadosKeyPressed
         int key = evt.getKeyCode();
-        if (key == KeyEvent.VK_ENTER)
-         btSeleccionar.requestFocus();
+        if (key == KeyEvent.VK_ENTER) {
+            btSeleccionar.requestFocus();
+        }
 
-        
     }//GEN-LAST:event_tablaEmpleadosKeyPressed
 
     /**

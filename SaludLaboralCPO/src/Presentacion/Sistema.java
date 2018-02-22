@@ -20,6 +20,7 @@ public class Sistema extends javax.swing.JFrame {
      */
     public Sistema() {
         initComponents();
+        lblNotificacion.setText("Sistema");
 
         this.setLocationRelativeTo(null);
         this.setIconImage(new ImageIcon(getClass().getResource("/Archivos/group.png")).getImage());
@@ -35,6 +36,7 @@ public class Sistema extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btArticulo = new javax.swing.JButton();
@@ -86,9 +88,12 @@ public class Sistema extends javax.swing.JFrame {
         lblEscalafon = new javax.swing.JLabel();
         lblAgrupamiento = new javax.swing.JLabel();
         lblFunReal = new javax.swing.JLabel();
+        lblNotificacion = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+
+        jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema");
@@ -578,6 +583,10 @@ public class Sistema extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        lblNotificacion.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
+        lblNotificacion.setText("..");
+        lblNotificacion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(243, 31, 55), 1, true));
+
         jMenu1.setText("Archivo");
         jMenuBar1.add(jMenu1);
 
@@ -592,7 +601,9 @@ public class Sistema extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNotificacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -600,6 +611,8 @@ public class Sistema extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNotificacion)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -691,6 +704,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JTextField jTextField1;
     public static javax.swing.JLabel lblAgrupamiento;
     public static javax.swing.JLabel lblApellido;
     public static javax.swing.JLabel lblAptitud;
@@ -708,6 +722,7 @@ public class Sistema extends javax.swing.JFrame {
     public static javax.swing.JLabel lblMail;
     public static javax.swing.JLabel lblMovil;
     public static javax.swing.JLabel lblNombre;
+    public static javax.swing.JLabel lblNotificacion;
     public static javax.swing.JLabel lblRevista;
     public static javax.swing.JLabel lblServicio;
     public static javax.swing.JLabel lblTelefono;

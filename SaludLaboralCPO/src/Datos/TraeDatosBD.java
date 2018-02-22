@@ -10,6 +10,13 @@ import com.mysql.jdbc.Statement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import ModelClass.UsuariosClass;
+import ModeloBD.Usuarios;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ColumnListHandler;
 
 /**
  *
@@ -18,6 +25,8 @@ import java.sql.SQLException;
 public class TraeDatosBD {
 
     Conexion conexion = new Conexion();
+    private List<Usuarios> usuarios;
+    private QueryRunner QR = new QueryRunner();
 
     public String TraeRevistaActivaId(String legajo) throws SQLException {
 
@@ -190,4 +199,13 @@ public class TraeDatosBD {
 
     }
 
+    public List<Usuarios> usuarios() {
+        try {
+            usuarios = (List<Usuarios>) QR.query(conexion.getConn(), "SELECT * FROM usuarios",
+                    new BeanListHandler(Usuarios.class));
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error : " + e);
+        }
+        return usuarios;
+    }
 }

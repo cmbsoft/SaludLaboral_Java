@@ -16,6 +16,7 @@ public class Acceso extends javax.swing.JFrame {
      */
     public Acceso() {
         initComponents();
+        Sistema.lblNotificacion.setText("Acceso al Sistema");
         this.setLocationRelativeTo(null);
     }
 

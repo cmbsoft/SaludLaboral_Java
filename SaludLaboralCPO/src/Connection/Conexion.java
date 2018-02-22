@@ -5,6 +5,7 @@
  */
 package Connection;
 
+import Presentacion.Sistema;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,9 +19,9 @@ import java.util.logging.Logger;
 public class Conexion {
 
     private String db = "personaldb";
-    private String user = "root";
-    private String password = "baci2508";
-    private String url = "jdbc:mysql://192.168.10.63/" + db;
+    private String user = "gestion_";
+    private String password = "GESTION_77";
+    private String url = "jdbc:mysql://192.168.10.63/" + db + "?useSSL=false";
     private Connection conn = null;
 
     public Conexion() {
@@ -31,11 +32,13 @@ public class Conexion {
 
             if (conn != null) {
                 System.out.println("La conexión a la base de datos " + this.db + "... Exitosa");
+                Sistema.lblNotificacion.setText("La conexión a la base de datos  " + this.db + "... Exitosa");
 
             }
 
         } catch (Exception ex) {
             System.out.println(" Error conexión a la base de datos: " + ex + ".... :( ");
+            Sistema.lblNotificacion.setText(" Error conexión a la base de datos: " + ex + ".... :( ");
         }
 
     }
