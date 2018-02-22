@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Logica.FuncionesPropias;
-
+import Logica.FuncionesPropias;
 /**
  *
  * @author baci
@@ -99,7 +99,7 @@ public class EmpleadosClass extends EmpleadosDatos {
         Sistema.lblTelefono.setText(empleados.get(0).getTelefono());
         Sistema.lblMovil.setText(empleados.get(0).getTelmovil());
         Sistema.lblFecNac.setText(fechaformato.dFechaddmmyyyy(empleados.get(0).getFecha_nacimiento()));
-
+        Sistema.lblEdad.setText(FuncionesPropias.getEdad(empleados.get(0).getFecha_nacimiento()));
         Sistema.lblCarpMed.setText(empleados.get(0).getCarp_medica());
         Sistema.lblAptitud.setText(empleados.get(0).getAptitud());
         Sistema.lblEstCivil.setText(empleados.get(0).getEstado_civil());
