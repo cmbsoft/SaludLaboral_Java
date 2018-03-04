@@ -18,15 +18,15 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author baci
  */
-public class DatosFrancos {
+public class DatosDNL {
 
     private DefaultTableModel modelo;
     FuncionesPropias funcionesp = new FuncionesPropias();
 
-    public void cargaTablaFrancos(String SQL, JTable table) {
+    public void cargaTablaDNL(String SQL, JTable table) {
 
         String[] registros = new String[10];
-        String[] titulos = {"Fecha"};
+        String[] titulos = {"Desde", "Hasta", "Cantidad"};
         modelo = new DefaultTableModel(null, titulos);
 
         Conexion conex = new Conexion();
@@ -39,17 +39,21 @@ public class DatosFrancos {
 
             while (RS.next()) {
                 registros[0] = RS.getString("Desde");
+                registros[1] = RS.getString("Hasta");
+                registros[2] = RS.getString("Cantidad");
 
                 modelo.addRow(registros);
             }
 
         } catch (SQLException e) {
-            System.out.println("Metodo cargaTablaFrancos - " + e.getMessage());
+            System.out.println("Metodo cargaTablaDNL - " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Error al consultar", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         table.setModel(modelo);
         table.getColumnModel().getColumn(0).setPreferredWidth(200);
+        table.getColumnModel().getColumn(1).setPreferredWidth(200);
+        table.getColumnModel().getColumn(2).setPreferredWidth(100);
 
     }
 

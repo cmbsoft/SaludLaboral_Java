@@ -5,25 +5,27 @@
  */
 package Vistas;
 
-import Datos.DatosEmpleados;
-import Datos.DatosArticulos;
+//import Datos.DatosEmpleados;
+//import Datos.DatosArticulos;
+//import Datos.TraeDatosBD;
+//import Datos.DatosEmpleadosArt;
+//import Datos.DatosFichadas;
+//import Datos.DatosFrancos;
+//import Datos.DatosFeriados;
+import Datos.*;
 import Logica.FuncionesPropias;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Datos.TraeDatosBD;
-import Datos.DatosEmpleadosArt;
-import Datos.DatosFichadas;
-import Datos.DatosFrancos;
-import Datos.DatosFeriados;
 import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Year;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,6 +41,7 @@ public class Sistema extends javax.swing.JFrame {
     DatosFichadas cargaFichadas = new DatosFichadas();
     DatosFrancos cargaFrancos = new DatosFrancos();
     DatosFeriados cargaFeriados = new DatosFeriados();
+    DatosDNL cargaDLN = new DatosDNL();
 
     String SQL = null;
     String cLegajo = null;
@@ -46,6 +49,7 @@ public class Sistema extends javax.swing.JFrame {
     public Sistema() {
         initComponents();
 
+        this.setIconImage(new ImageIcon(getClass().getResource("/Archivos/group.png")).getImage());
         jTabbedPane2.setIconAt(0, new ImageIcon(getClass().getResource("/Archivos/group.png")));
         jTabbedPane2.setIconAt(1, new ImageIcon(getClass().getResource("/Archivos/articulo_add.png")));
         jTabbedPane2.setIconAt(2, new ImageIcon(getClass().getResource("/Archivos/certificado_add.png")));
@@ -143,7 +147,7 @@ public class Sistema extends javax.swing.JFrame {
         return SQL;
     }
 
-    private String buscaFeriados() {
+    private String buscaDNL() {
 
         int anioSeleccionado = 0;
         //String mesSeleccionado = cboMes.getSelectedItem().toString();
@@ -157,8 +161,27 @@ public class Sistema extends javax.swing.JFrame {
         String ultimoDia = FuncionesPropias.ultimoDiaMes(mesnumero, anioSeleccionado);
         String primerDia = FuncionesPropias.primerDiaMes(mesnumero, anioSeleccionado);
 
-        SQL = "Select Desde from empleados_francos where legajo='" + cLegajo + "' "
-                + "AND Desde BETWEEN '" + primerDia + "' AND '" + ultimoDia + "' ";
+        SQL = "Select * from empleados_dnt where legajo='" + cLegajo + "' "
+                + "AND Desde BETWEEN '" + primerDia + "' AND '" + ultimoDia + "' "
+                + "AND Hasta BETWEEN '" + primerDia + "' AND '" + ultimoDia + "' ";
+
+        //SQL = "SELECT * frOM `feriados` WHERE fecha BETWEEN '" + primerDia + "' AND '" + ultimoDia + "'";
+        return SQL;
+    }
+
+    private String buscaFeriados() {
+
+        int anioSeleccionado = 0;
+        //String mesSeleccionado = cboMes.getSelectedItem().toString();
+        int mesnumero = FuncionesPropias.mesNumero(cboMes.getSelectedItem().toString());
+
+        if (cboAnio.getItemCount() != 0) {
+
+            anioSeleccionado = Integer.parseInt(cboAnio.getSelectedItem().toString());
+        }
+
+        String ultimoDia = FuncionesPropias.ultimoDiaMes(mesnumero, anioSeleccionado);
+        String primerDia = FuncionesPropias.primerDiaMes(mesnumero, anioSeleccionado);
 
         SQL = "SELECT * frOM `feriados` WHERE fecha BETWEEN '" + primerDia + "' AND '" + ultimoDia + "'";
 
@@ -265,6 +288,9 @@ public class Sistema extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         tablaFeriados = new javax.swing.JTable();
         jLabel32 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tablaDNL = new javax.swing.JTable();
+        jLabel37 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jLabel33 = new javax.swing.JLabel();
         lblLegajo1 = new javax.swing.JLabel();
@@ -278,6 +304,12 @@ public class Sistema extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema");
         getContentPane().setLayout(new javax.swing.OverlayLayout(getContentPane()));
+
+        jTabbedPane2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane2StateChanged(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(78, 165, 23), 2, true), "Buscar empleado"));
@@ -818,8 +850,8 @@ public class Sistema extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 100, Short.MAX_VALUE))
-                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 640, Short.MAX_VALUE))
+                        .addGap(0, 118, Short.MAX_VALUE))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 658, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -996,8 +1028,10 @@ public class Sistema extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(tablaHistArt);
 
+        lblArticuloSelec.setForeground(new java.awt.Color(247, 165, 41));
         lblArticuloSelec.setText("Historial Artículo seleccionado:");
 
+        jLabel34.setForeground(new java.awt.Color(247, 165, 41));
         jLabel34.setText("Historial de todos los Artículos");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Archivos/delete.png"))); // NOI18N
@@ -1015,13 +1049,14 @@ public class Sistema extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblArticuloSelec)
+                    .addComponent(jLabel34)
                     .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
-                    .addComponent(jLabel34))
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
@@ -1033,7 +1068,7 @@ public class Sistema extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addGap(20, 20, 20)
                         .addComponent(jButton1)))
                 .addGap(8, 8, 8)
                 .addComponent(jLabel34)
@@ -1072,8 +1107,10 @@ public class Sistema extends javax.swing.JFrame {
             }
         });
 
+        jLabel30.setForeground(new java.awt.Color(247, 165, 41));
         jLabel30.setText("Mes:");
 
+        jLabel31.setForeground(new java.awt.Color(247, 165, 41));
         jLabel31.setText("Año:");
 
         tablaFrancos.setModel(new javax.swing.table.DefaultTableModel(
@@ -1089,8 +1126,10 @@ public class Sistema extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(tablaFrancos);
 
+        jLabel28.setForeground(new java.awt.Color(247, 165, 41));
         jLabel28.setText("Fichadas:");
 
+        jLabel29.setForeground(new java.awt.Color(247, 165, 41));
         jLabel29.setText("Francos:");
 
         tablaFeriados.setModel(new javax.swing.table.DefaultTableModel(
@@ -1106,7 +1145,24 @@ public class Sistema extends javax.swing.JFrame {
         ));
         jScrollPane6.setViewportView(tablaFeriados);
 
+        jLabel32.setForeground(new java.awt.Color(247, 165, 41));
         jLabel32.setText("Feriados:");
+
+        tablaDNL.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane7.setViewportView(tablaDNL);
+
+        jLabel37.setForeground(new java.awt.Color(247, 165, 41));
+        jLabel37.setText("DNL:");
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -1115,27 +1171,35 @@ public class Sistema extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel12Layout.createSequentialGroup()
-                                .addComponent(jLabel30)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cboMes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel31)
-                                .addGap(18, 18, 18)
-                                .addComponent(cboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel28))
+                            .addComponent(jLabel29)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(jLabel30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cboMes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel31)
+                        .addGap(18, 18, 18)
+                        .addComponent(cboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                    .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel29))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel28)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addComponent(jLabel37)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel12Layout.setVerticalGroup(
@@ -1147,17 +1211,22 @@ public class Sistema extends javax.swing.JFrame {
                     .addComponent(jLabel31)
                     .addComponent(cboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel28)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel29)
-                    .addComponent(jLabel32))
-                .addGap(3, 3, 3)
+                    .addComponent(jLabel28)
+                    .addComponent(jLabel37))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel29)
+                            .addComponent(jLabel32))
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -1235,14 +1304,13 @@ public class Sistema extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1252,10 +1320,10 @@ public class Sistema extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
@@ -1266,7 +1334,7 @@ public class Sistema extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1139, Short.MAX_VALUE)
+            .addGap(0, 1157, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1279,7 +1347,7 @@ public class Sistema extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1139, Short.MAX_VALUE)
+            .addGap(0, 1157, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1341,6 +1409,7 @@ public class Sistema extends javax.swing.JFrame {
             cargaFichadas.cargaTablaFichadas(buscaFichadas(), tablaControlAsis);
             cargaFrancos.cargaTablaFrancos(buscaFrancos(), tablaFrancos);
             cargaFeriados.cargaTablaFeriados(buscaFeriados(), tablaFeriados);
+            cargaDLN.cargaTablaDNL(buscaDNL(), tablaDNL);
 
         } catch (SQLException ex) {
             Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
@@ -1408,6 +1477,7 @@ public class Sistema extends javax.swing.JFrame {
         cargaFichadas.cargaTablaFichadas(buscaFichadas(), tablaControlAsis);
         cargaFrancos.cargaTablaFrancos(buscaFrancos(), tablaFrancos);
         cargaFeriados.cargaTablaFeriados(buscaFeriados(), tablaFeriados);
+        cargaDLN.cargaTablaDNL(buscaDNL(), tablaDNL);
 
     }//GEN-LAST:event_cboMesActionPerformed
 
@@ -1416,12 +1486,27 @@ public class Sistema extends javax.swing.JFrame {
         cargaFichadas.cargaTablaFichadas(buscaFichadas(), tablaControlAsis);
         cargaFrancos.cargaTablaFrancos(buscaFrancos(), tablaFrancos);
         cargaFeriados.cargaTablaFeriados(buscaFeriados(), tablaFeriados);
+        cargaDLN.cargaTablaDNL(buscaDNL(), tablaDNL);
 
     }//GEN-LAST:event_cboAnioActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTabbedPane2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane2StateChanged
+
+        System.out.println(jTabbedPane2.getSelectedIndex());
+
+        if (jTabbedPane2.getSelectedIndex() > 0) {
+            if (cLegajo == null) {
+
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un empleado");
+                jTabbedPane2.setSelectedIndex(0);
+            }
+        }
+
+    }//GEN-LAST:event_jTabbedPane2StateChanged
 
     private void historialArt(String legajo) {
         String itemSeleecionado = (String) cboArticulos.getSelectedItem();
@@ -1563,6 +1648,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1587,6 +1673,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane2;
     public static javax.swing.JLabel lblAgrupamiento;
     public static javax.swing.JLabel lblApellido;
@@ -1616,6 +1703,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JRadioButton opActivo;
     private javax.swing.JRadioButton opPasivo;
     private javax.swing.JTable tablaControlAsis;
+    private javax.swing.JTable tablaDNL;
     private javax.swing.JTable tablaEmpleados;
     private javax.swing.JTable tablaFeriados;
     private javax.swing.JTable tablaFrancos;
