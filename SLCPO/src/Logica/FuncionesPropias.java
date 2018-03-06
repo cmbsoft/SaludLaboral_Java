@@ -63,9 +63,6 @@ public class FuncionesPropias {
                 diferencia = 0;
 
                 JOptionPane.showMessageDialog(null, "La fecha Hasta es mayor que la fecha Desde", "", JOptionPane.WARNING_MESSAGE);
-                //Dialogo vdialogo = new Dialogo(null, true);
-                //vdialogo.lblMensaje.setText("La fecha Hasta es mayor que la fecha Desde");
-                //vdialogo.setVisible(true);
 
             } else {
                 diferencia = ((Hasta.getTime() - Desde.getTime()) / MILLSECS_PER_DAY) + 1;
