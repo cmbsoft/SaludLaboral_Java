@@ -26,6 +26,8 @@ import java.time.Year;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -56,17 +58,17 @@ public class Sistema extends javax.swing.JFrame {
         jTabbedPane2.setIconAt(3, new ImageIcon(getClass().getResource("/Archivos/certifica.png")));
         //jTabbedPane2
 
+        Date date = new Date();
+
+        dtDesde.setDate(date);
+        dtHasta.setDate(date);
+
         cboAnio.setSelectedIndex(0);
 
         opActivo.setSelected(true);
         this.setLocationRelativeTo(null);
 
         cargaDatosEmp.cargaTabla(buscaEmpleado(), tablaEmpleados);
-
-        Date date = new Date();
-
-        dtDesde.setDate(date);
-        dtHasta.setDate(date);
 
         cargaDatosArt.cargaArtCombo(cboArticulos);
 
@@ -266,6 +268,7 @@ public class Sistema extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         txtDias = new javax.swing.JTextField();
         btGuardar = new javax.swing.JButton();
+        lblTipoDia = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaHistArtTodos = new javax.swing.JTable();
@@ -942,6 +945,8 @@ public class Sistema extends javax.swing.JFrame {
             }
         });
 
+        lblTipoDia.setText("..");
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -966,6 +971,8 @@ public class Sistema extends javax.swing.JFrame {
                         .addComponent(jLabel27)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtDias, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
+                        .addComponent(lblTipoDia)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)))
@@ -992,7 +999,8 @@ public class Sistema extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel27)
-                            .addComponent(txtDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblTipoDia)))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addComponent(btGuardar)))
@@ -1423,7 +1431,10 @@ public class Sistema extends javax.swing.JFrame {
 
     private void dtHastaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dtHastaPropertyChange
 
-        txtDias.setText(String.valueOf(funcionesp.DifEntreFechas(dtDesde.getDate(), dtHasta.getDate())));
+        if (cLegajo != null) {
+            CalculoDias();
+        }
+
     }//GEN-LAST:event_dtHastaPropertyChange
 
     private void dtHastaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dtHastaMouseExited
@@ -1443,7 +1454,7 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_dtHastaFocusLost
 
     private void dtDesdePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dtDesdePropertyChange
-        txtDias.setText(String.valueOf(funcionesp.DifEntreFechas(dtDesde.getDate(), dtHasta.getDate())));
+
     }//GEN-LAST:event_dtDesdePropertyChange
 
     private void cboArticulosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboArticulosPropertyChange
@@ -1462,6 +1473,10 @@ public class Sistema extends javax.swing.JFrame {
             lblArticuloSelec.setText("Historial Artículo seleccionado: " + traedatos.TraeIdArticulo(itemSeleecionado));
         } catch (SQLException ex) {
             Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (cLegajo != null) {
+            CalculoDias();
         }
     }//GEN-LAST:event_cboArticulosActionPerformed
 
@@ -1528,8 +1543,7 @@ public class Sistema extends javax.swing.JFrame {
         boolean cantDiasOk = false;
 
         String tipoDia;
-        int cantFeriados;
-        int cantFrancos;
+        String mensaje;
         boolean existenart;
 
         SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
@@ -1537,31 +1551,122 @@ public class Sistema extends javax.swing.JFrame {
         String hasta = formato.format(dtHasta.getDate());
         String itemSeleecionado = (String) cboArticulos.getSelectedItem();
 
+        //Trae cantidad máxima mensual del art
+        int cantidadMensual = 0;
+        try {
+
+            cantidadMensual = traedatos.diasMes(traedatos.TraeIdArticulo(itemSeleecionado));
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //Trae la cantidad máxima anual del art
+        int cantidadAnual = 0;
+        try {
+            cantidadAnual = traedatos.diasAnual(traedatos.TraeIdArticulo(itemSeleecionado));
+        } catch (SQLException ex) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //Tre la cantidad máxima en toda la carrera del art
+        int cantidadcarrera = 0;
+
+        try {
+            cantidadcarrera = traedatos.diasCarrera(traedatos.TraeIdArticulo(itemSeleecionado));
+        } catch (SQLException ex) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //Verifica si existen articulos cargados entre las fechas
+        try {
+            existenart = traedatos.existenArt(desde, hasta, cLegajo);
+            if (existenart) {
+                mensaje = "Existen Artículos cargados en este período";
+                cantDiasOk = false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Cantidad en la carrera
+        if (cantidadcarrera > 0) {
+            try {
+                int cantidadDiasTotal = traedatos.empleadoDiasCarreraArt(traedatos.TraeIdArticulo(itemSeleecionado), cLegajo) + Integer.parseInt(txtDias.getText());
+
+                if (cantidadcarrera < cantidadDiasTotal) {
+
+                    mensaje = "La suma de días exceden el total posible";
+                    cantDiasOk = false;
+
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        // Cantidad en la anual
+        if (cantidadAnual > 0) {
+
+        }
+
+        // Cantidad en la mensual
+        if (cantidadMensual > 0) {
+
+        }
+
+        return cantDiasOk;
+    }
+
+    private void CalculoDias() {
+
+        String tipoDia = "";
+        String itemSeleecionado = (String) cboArticulos.getSelectedItem();
+
+        int cantFeriados = 0;
+        int cantFrancos = 0;
+
+        SimpleDateFormat formatodia = new SimpleDateFormat("yyyy/MM/dd");
+        String desde = formatodia.format(dtDesde.getDate());
+        String hasta = formatodia.format(dtHasta.getDate());
+
         try {
             tipoDia = traedatos.HabilesCorridos(traedatos.TraeIdArticulo(itemSeleecionado));
         } catch (SQLException ex) {
             Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
         }
+        switch (tipoDia) {
+            case "Corridos":
 
-        try {
-            cantFeriados = traedatos.cantidadFeriados(desde, hasta);
-        } catch (SQLException ex) {
-            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+                txtDias.setText(String.valueOf(funcionesp.DifEntreFechas(dtDesde.getDate(), dtHasta.getDate())));
+                lblTipoDia.setText("Corridos");
+                break;
+
+            case "Habiles":
+
+                try {
+                    cantFeriados = traedatos.cantidadFeriados(desde, hasta);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+                    cantFrancos = traedatos.cantidadFrancos(desde, hasta, cLegajo);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                long cantDias = funcionesp.DifEntreFechas(dtDesde.getDate(), dtHasta.getDate());
+
+                txtDias.setText(String.valueOf(cantDias - cantFeriados - cantFrancos));
+                lblTipoDia.setText("Habiles");
+
+                break;
+
         }
 
-        try {
-            cantFrancos = traedatos.cantidadFrancos(desde, hasta, cLegajo);
-        } catch (SQLException ex) {
-            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            existenart = traedatos.existenArt(desde, hasta, cLegajo);
-        } catch (SQLException ex) {
-            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return cantDiasOk;
     }
 
     /**
@@ -1698,6 +1803,7 @@ public class Sistema extends javax.swing.JFrame {
     public static javax.swing.JLabel lblRevista;
     public static javax.swing.JLabel lblServicio;
     public static javax.swing.JLabel lblTelefono;
+    private javax.swing.JLabel lblTipoDia;
     private javax.swing.JRadioButton opActivo;
     private javax.swing.JRadioButton opPasivo;
     private javax.swing.JTable tablaControlAsis;

@@ -305,6 +305,135 @@ public class TraeDatosBD {
         return existen;
     }
 
+    public int diasAnual(String IdArticulo) throws SQLException {
+        int cantAnual = 0;
+
+        String SQL = "SELECT cant_anio FROM articulos  WHERE IdArticulo='" + IdArticulo + "'";
+
+        Conexion conexion = new Conexion();
+
+        Connection conecta = conexion.getConn();
+
+        Statement comando = (Statement) conecta.createStatement();
+        ResultSet registro = comando.executeQuery(SQL);
+
+        if (registro.next() == true) {
+            cantAnual = registro.getInt(1);
+        } else {
+            cantAnual = 0;
+        }
+
+        return cantAnual;
+    }
+
+    public int diasMes(String IdArticulo) throws SQLException {
+        int cantMes = 0;
+
+        String SQL = "SELECT cant_mes FROM articulos  WHERE IdArticulo='" + IdArticulo + "'";
+
+        Conexion conexion = new Conexion();
+
+        Connection conecta = conexion.getConn();
+
+        Statement comando = (Statement) conecta.createStatement();
+        ResultSet registro = comando.executeQuery(SQL);
+
+        if (registro.next() == true) {
+            cantMes = registro.getInt(1);
+        } else {
+            cantMes = 0;
+        }
+
+        return cantMes;
+    }
+
+    public int diasCarrera(String IdArticulo) throws SQLException {
+        int cantCarrera = 0;
+
+        String SQL = "SELECT cant_carrera FROM articulos  WHERE IdArticulo='" + IdArticulo + "'";
+
+        Conexion conexion = new Conexion();
+
+        Connection conecta = conexion.getConn();
+
+        Statement comando = (Statement) conecta.createStatement();
+        ResultSet registro = comando.executeQuery(SQL);
+
+        if (registro.next() == true) {
+            cantCarrera = registro.getInt(1);
+        } else {
+            cantCarrera = 0;
+        }
+
+        return cantCarrera;
+    }
+
+    public int empleadoDiasCarreraArt(String IdArticulo, String legajo) throws SQLException {
+        int cantCarrera = 0;
+
+        String SQL = "SELECT SUM(Cantidad) FROM `empleados_articulos` WHERE IdArticulo='" + IdArticulo + "' AND legajo='" + legajo + "'";
+
+        Conexion conexion = new Conexion();
+
+        Connection conecta = conexion.getConn();
+
+        Statement comando = (Statement) conecta.createStatement();
+        ResultSet registro = comando.executeQuery(SQL);
+
+        if (registro.next() == true) {
+            cantCarrera = registro.getInt(1);
+        } else {
+            cantCarrera = 0;
+        }
+
+        return cantCarrera;
+
+    }
+
+    public int empleadoDiasAnioArt(String IdArticulo, String legajo) throws SQLException {
+        int cant = 0;
+
+        String SQL = "SELECT SUM(Cantidad) FROM `empleados_articulos` WHERE IdArticulo='" + IdArticulo + "' AND legajo='" + legajo + "'";
+
+        Conexion conexion = new Conexion();
+
+        Connection conecta = conexion.getConn();
+
+        Statement comando = (Statement) conecta.createStatement();
+        ResultSet registro = comando.executeQuery(SQL);
+
+        if (registro.next() == true) {
+            cant = registro.getInt(1);
+        } else {
+            cant = 0;
+        }
+
+        return cant;
+
+    }
+
+    public int empleadoDiasMesArt(String IdArticulo, String legajo) throws SQLException {
+        int cant = 0;
+
+        String SQL = "SELECT SUM(Cantidad) FROM `empleados_articulos` WHERE IdArticulo='" + IdArticulo + "' AND legajo='" + legajo + "'";
+
+        Conexion conexion = new Conexion();
+
+        Connection conecta = conexion.getConn();
+
+        Statement comando = (Statement) conecta.createStatement();
+        ResultSet registro = comando.executeQuery(SQL);
+
+        if (registro.next() == true) {
+            cant = registro.getInt(1);
+        } else {
+            cant = 0;
+        }
+
+        return cant;
+
+    }
+
 }
 
 /// FIN !!!!!!!!!!!!
